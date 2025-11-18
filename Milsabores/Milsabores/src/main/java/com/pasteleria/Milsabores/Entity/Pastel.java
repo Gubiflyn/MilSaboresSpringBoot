@@ -12,28 +12,32 @@ public class Pastel {
 
     private String codigo;
     private String nombre;
-    private String categoria;
     private String descripcion;
     private Integer precio;
     private Integer stock;
     private String imagen;
 
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
     public Pastel() {
     }
 
-    public Pastel(Long id, String codigo, String nombre, String categoria,
-                  String descripcion, Integer precio, Integer stock, String imagen) {
+    public Pastel(Long id, String codigo, String nombre,
+                  String descripcion, Integer precio,
+                  Integer stock, String imagen, Categoria categoria) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
-        this.categoria = categoria;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
+        this.categoria = categoria;
     }
 
-    // Getters y setters
+    // getters y setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -43,9 +47,6 @@ public class Pastel {
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
 
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
@@ -59,17 +60,6 @@ public class Pastel {
     public String getImagen() { return imagen; }
     public void setImagen(String imagen) { this.imagen = imagen; }
 
-    @Override
-    public String toString() {
-        return "Pastel{" +
-                "id=" + id +
-                ", codigo='" + codigo + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", precio=" + precio +
-                ", stock=" + stock +
-                ", imagen='" + imagen + '\'' +
-                '}';
-    }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 }
