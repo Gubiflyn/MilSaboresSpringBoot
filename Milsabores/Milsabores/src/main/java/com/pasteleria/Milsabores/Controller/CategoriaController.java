@@ -4,42 +4,48 @@ import com.pasteleria.Milsabores.Entity.Categoria;
 import com.pasteleria.Milsabores.Service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
+@RequestMapping("/api/categorias")
 public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping("/categorias")
-    public List<Categoria> getCategorias() {
+    @PostMapping("/saveCategoria")
+    public Categoria saveCategoria(@RequestBody Categoria categoria) {
+        return categoriaService.guardar(categoria);
+    }
+
+    @PostMapping("/saveCategoriasList")
+    public List<Categoria> saveCategoriasList(@RequestBody List<Categoria> categorias) {
+        return categoriaService.guardarLista(categorias);
+    }
+
+    @GetMapping("/listCategorias")
+    public List<Categoria> listCategorias() {
         return categoriaService.listarTodas();
     }
 
-    @GetMapping("/categorias/{id}")
-    public Optional<Categoria> getCategoriaById(@PathVariable Long id) {
-        return categoriaService.buscarPorId(id);
+    @GetMapping("/getCategoriaById/{id}")
+    public Categoria getCategoriaById(@PathVariable Long id) {
+        return categoriaService.buscarPorId(id).orElse(null);
     }
 
-    @PostMapping("/categorias")
-    public Categoria crearCategoria(@RequestBody Categoria categoria) {
-        return categoriaService.guardar(categoria);
+    @GetMapping("/getCategoriaByNombre/{nombre}")
+    public Categoria getCategoriaByNombre(@PathVariable String nombre) {
+        return categoriaService.buscarPorNombre(nombre).orElse(null);
     }
 
-    @PutMapping("/categorias/{id}")
-    public Categoria actualizarCategoria(@PathVariable Long id,
-                                         @RequestBody Categoria categoria) {
-        categoria.setId(id);
-        return categoriaService.guardar(categoria);
+    @PutMapping("/updateCategoria")
+    public Categoria updateCategoria(@RequestBody Categoria categoria) {
+        return categoriaService.actualizar(categoria);
     }
 
-    @DeleteMapping("/categorias/{id}")
-    public String eliminarCategoria(@PathVariable Long id) {
-        categoriaService.eliminar(id);
-        return "Categoría eliminada con id: " + id;
+    @DeleteMapping("/deleteCategoriaById/{id}")
+    public String deleteCategoriaById(@PathVariable Long id) {
+        return categoriaService.eliminar(id);
     }
 }

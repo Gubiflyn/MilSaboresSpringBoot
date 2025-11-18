@@ -3,15 +3,18 @@ package com.pasteleria.Milsabores.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "categorias")
+@Table(name = "CATEGORIA")
 public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_CATEGORIA")
     private Long id;
 
+    @Column(name = "NOMBRE", nullable = false, length = 100)
     private String nombre;
 
+    @Column(name = "DESCRIPCION", length = 255)
     private String descripcion;
 
     public Categoria() {
@@ -31,4 +34,13 @@ public class Categoria {
 
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
+    }
 }

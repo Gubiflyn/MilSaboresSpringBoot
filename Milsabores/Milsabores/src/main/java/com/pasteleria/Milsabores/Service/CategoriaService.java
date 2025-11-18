@@ -14,6 +14,14 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    public Categoria guardar(Categoria categoria) {
+        return categoriaRepository.save(categoria);
+    }
+
+    public List<Categoria> guardarLista(List<Categoria> categorias) {
+        return categoriaRepository.saveAll(categorias);
+    }
+
     public List<Categoria> listarTodas() {
         return categoriaRepository.findAll();
     }
@@ -26,11 +34,19 @@ public class CategoriaService {
         return categoriaRepository.findByNombre(nombre);
     }
 
-    public Categoria guardar(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public String eliminar(Long id) {
+        categoriaRepository.deleteById(id);
+        return "Categoría eliminada: " + id;
     }
 
-    public void eliminar(Long id) {
-        categoriaRepository.deleteById(id);
+    public Categoria actualizar(Categoria categoria) {
+        Categoria existente = categoriaRepository
+                .findById(categoria.getId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+
+        existente.setNombre(categoria.getNombre());
+        existente.setDescripcion(categoria.getDescripcion());
+
+        return categoriaRepository.save(existente);
     }
 }

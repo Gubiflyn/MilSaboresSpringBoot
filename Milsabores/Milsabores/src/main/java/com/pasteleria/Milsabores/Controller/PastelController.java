@@ -2,52 +2,60 @@ package com.pasteleria.Milsabores.Controller;
 
 import com.pasteleria.Milsabores.Entity.Pastel;
 import com.pasteleria.Milsabores.Service.PastelService;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
+@RequestMapping("/api/pasteles")
 public class PastelController {
 
     @Autowired
     private PastelService pastelService;
 
-    @GetMapping("/pasteles")
-    public List<Pastel> getPasteles() {
+    @PostMapping("/savePastel")
+    public Pastel savePastel(@RequestBody Pastel pastel) {
+        return pastelService.guardar(pastel);
+    }
+
+    @PostMapping("/savePastelesList")
+    public List<Pastel> savePastelesList(@RequestBody List<Pastel> pasteles) {
+        return pastelService.guardarLista(pasteles);
+    }
+
+    @GetMapping("/listPasteles")
+    public List<Pastel> listPasteles() {
         return pastelService.listarTodos();
     }
 
-    @GetMapping("/pasteles/{id}")
-    public Optional<Pastel> getPastelById(@PathVariable Long id) {
-        return pastelService.buscarPorId(id);
+    @GetMapping("/getPastelById/{id}")
+    public Pastel getPastelById(@PathVariable Long id) {
+        return pastelService.buscarPorId(id).orElse(null);
     }
 
-    @GetMapping("/pasteles/codigo/{codigo}")
-    public Optional<Pastel> getPastelByCodigo(@PathVariable String codigo) {
-        return pastelService.buscarPorCodigo(codigo);
+    @GetMapping("/getPastelByCodigo/{codigo}")
+    public Pastel getPastelByCodigo(@PathVariable String codigo) {
+        return pastelService.buscarPorCodigo(codigo).orElse(null);
     }
 
-    @GetMapping("/pasteles/categoria/{categoria}")
-    public List<Pastel> getPastelesByCategoria(@PathVariable String categoria) {
-        return pastelService.buscarPorCategoria(categoria);
+    @GetMapping("/getPastelesByNombre/{nombre}")
+    public List<Pastel> getPastelesByNombre(@PathVariable String nombre) {
+        return pastelService.buscarPorNombre(nombre);
     }
 
-    @PostMapping("/pasteles")
-    public Pastel crearPastel(@RequestBody Pastel pastel) {
-        return pastelService.guardar(pastel);
+    @GetMapping("/getPastelesByCategoria/{nombreCategoria}")
+    public List<Pastel> getPastelesByCategoria(@PathVariable String nombreCategoria) {
+        return pastelService.buscarPorNombreCategoria(nombreCategoria);
     }
 
-    @PutMapping("/pasteles/{id}")
-    public Pastel actualizarPastel(@PathVariable Long id, @RequestBody Pastel pastel) {
-        pastel.setId(id);
-        return pastelService.guardar(pastel);
+    @PutMapping("/updatePastel")
+    public Pastel updatePastel(@RequestBody Pastel pastel) {
+        return pastelService.actualizar(pastel);
     }
 
-    @DeleteMapping("/pasteles/{id}")
-    public String eliminarPastel(@PathVariable Long id) {
-        pastelService.eliminar(id);
-        return "Pastel eliminado con id: " + id;
+    @DeleteMapping("/deletePastelById/{id}")
+    public String deletePastelById(@PathVariable Long id) {
+        return pastelService.eliminar(id);
     }
 }

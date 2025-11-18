@@ -3,22 +3,34 @@ package com.pasteleria.Milsabores.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "pasteles")
+@Table(name = "PRODUCTO")
 public class Pastel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_PRODUCTO")
     private Long id;
 
+    @Column(name = "CODIGO", nullable = false, unique = true, length = 20)
     private String codigo;
+
+    @Column(name = "NOMBRE", nullable = false, length = 150)
     private String nombre;
+
+    @Column(name = "DESCRIPCION", length = 500)
     private String descripcion;
+
+    @Column(name = "PRECIO", nullable = false)
     private Integer precio;
+
+    @Column(name = "STOCK", nullable = false)
     private Integer stock;
+
+    @Column(name = "IMAGEN", length = 255)
     private String imagen;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoria")
+    @JoinColumn(name = "ID_CATEGORIA")
     private Categoria categoria;
 
     public Pastel() {
@@ -36,8 +48,6 @@ public class Pastel {
         this.imagen = imagen;
         this.categoria = categoria;
     }
-
-    // getters y setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -62,4 +72,18 @@ public class Pastel {
 
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+
+    @Override
+    public String toString() {
+        return "Pastel{" +
+                "id=" + id +
+                ", codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", imagen='" + imagen + '\'' +
+                ", categoria=" + (categoria != null ? categoria.getNombre() : null) +
+                '}';
+    }
 }
