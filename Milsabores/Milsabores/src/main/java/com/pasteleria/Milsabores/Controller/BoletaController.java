@@ -49,4 +49,10 @@ public class BoletaController {
     public String deleteBoletaById(@PathVariable Long id) {
         return boletaService.eliminar(id);
     }
+
+    @GetMapping("/getBoletasByVendedorId/{idVendedor}")
+    public List<Boleta> getBoletasByVendedorId(@PathVariable Long idVendedor) {
+        return boletaService.buscarPorIdVendedor(idVendedor);
+    }
+
 }

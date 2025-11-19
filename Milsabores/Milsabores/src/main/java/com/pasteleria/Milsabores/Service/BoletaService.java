@@ -39,6 +39,11 @@ public class BoletaService {
         return "Boleta eliminada: " + id;
     }
 
+    public List<Boleta> buscarPorIdVendedor(Long idVendedor) {
+        return boletaRepository.findByVendedor_Id(idVendedor);
+    }
+
+
     public Boleta actualizar(Boleta boleta) {
         Boleta existente = boletaRepository
                 .findById(boleta.getId())

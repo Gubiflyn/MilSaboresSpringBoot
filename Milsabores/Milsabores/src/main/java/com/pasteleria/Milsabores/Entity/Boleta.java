@@ -23,6 +23,10 @@ public class Boleta {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_VENDEDOR", nullable = false)
+    private Vendedor vendedor;
+
     @OneToMany(mappedBy = "boleta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleBoleta> detalles;
 
@@ -30,13 +34,16 @@ public class Boleta {
     }
 
     public Boleta(Long id, LocalDateTime fechaEmision, Integer total,
-                  Usuario usuario, List<DetalleBoleta> detalles) {
+                  Usuario usuario, Vendedor vendedor, List<DetalleBoleta> detalles) {
         this.id = id;
         this.fechaEmision = fechaEmision;
         this.total = total;
         this.usuario = usuario;
+        this.vendedor = vendedor;
         this.detalles = detalles;
     }
+
+    // getters & setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -50,16 +57,9 @@ public class Boleta {
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
+    public Vendedor getVendedor() { return vendedor; }
+    public void setVendedor(Vendedor vendedor) { this.vendedor = vendedor; }
+
     public List<DetalleBoleta> getDetalles() { return detalles; }
     public void setDetalles(List<DetalleBoleta> detalles) { this.detalles = detalles; }
-
-    @Override
-    public String toString() {
-        return "Boleta{" +
-                "id=" + id +
-                ", fechaEmision=" + fechaEmision +
-                ", total=" + total +
-                ", usuario=" + (usuario != null ? usuario.getCorreo() : null) +
-                '}';
-    }
 }
