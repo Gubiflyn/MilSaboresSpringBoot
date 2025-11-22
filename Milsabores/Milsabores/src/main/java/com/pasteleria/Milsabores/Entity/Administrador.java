@@ -9,24 +9,20 @@ import java.time.LocalDate;
 @DiscriminatorValue("ADMIN")
 public class Administrador extends Usuario {
 
-    private String rol;             // ADMIN_GENERAL, ADMIN_CATALOGO, ADMIN_VENTAS, etc.
+    
     private boolean activo;
     private LocalDate fechaContratacion;
 
     public Administrador() {}
 
     public Administrador(Long id, String nombre, String rut, String apellido,
-                         String correo, String contrasena, String comuna, String region,
-                         String rol, boolean activo, LocalDate fechaContratacion) {
+                         String correo, String contrasena, String comuna, String region, boolean activo, LocalDate fechaContratacion) {
         super(id, nombre, rut, apellido, correo, contrasena, comuna, region);
-        this.rol = rol;
         this.activo = activo;
         this.fechaContratacion = fechaContratacion;
     }
 
-    public String getRol() { return rol; }
 
-    public void setRol(String rol) { this.rol = rol; }
 
     public boolean isActivo() { return activo; }
 

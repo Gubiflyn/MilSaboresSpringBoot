@@ -1,7 +1,8 @@
 package com.pasteleria.Milsabores.Controller;
 
-import com.pasteleria.Milsabores.Service.UsuarioService;
+import com.pasteleria.Milsabores.DTO.UsuarioUpdateDTO;
 import com.pasteleria.Milsabores.Entity.Usuario;
+import com.pasteleria.Milsabores.Service.UsuarioService;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,48 +17,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Milsabores
- */
-
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-// Si quisieras permitir cualquier origen en desarrollo, puedes usar:
-// @CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
 
-    @PostMapping("/addUsuario")
-    public Usuario addUsuario(@RequestBody Usuario u) {
-        return service.guardarUsuario(u);
-    }
-
+    // GET /usuarios
     @GetMapping("/usuarios")
-    public List<Usuario> findAllUsuarios() {
-        return service.listarUsuarios();
+    public List<Usuario> getUsuarios() {
+        return service.obtenerTodos();
     }
 
+    // GET /usuarioById/{id}
     @GetMapping("/usuarioById/{id}")
-    public Optional<Usuario> findUsuarioById(@PathVariable Long id) {
-        return service.obtenerUsuarioPorId(id);
+    public Optional<Usuario> getUsuarioById(@PathVariable Long id) {
+        return service.obtenerPorId(id);
     }
 
+    // GET /usuarioByCorreo/{correo}
     @GetMapping("/usuarioByCorreo/{correo}")
-    public Usuario findUsuarioByCorreo(@PathVariable String correo) {
+    public Usuario getUsuarioByCorreo(@PathVariable String correo) {
         return service.obtenerPorCorreo(correo);
     }
 
+    // POST /addUsuario
+    @PostMapping("/addUsuario")
+    public Usuario addUsuario(@RequestBody Usuario usuario) {
+        return service.guardarUsuario(usuario);
+    }
+
+    // DELETE /deleteUsuario/{id}
     @DeleteMapping("/deleteUsuario/{id}")
     public String deleteUsuario(@PathVariable Long id) {
         service.eliminarUsuario(id);
         return "Usuario eliminado con id: " + id;
     }
 
+    // PUT /updateUsuario → usa el DTO
     @PutMapping("/updateUsuario")
-    public Usuario updateUsuario(@RequestBody Usuario u) {
-        return service.guardarUsuario(u);
+    public Usuario updateUsuario(@RequestBody UsuarioUpdateDTO dto) {
+        return service.actualizarUsuario(dto);
     }
 }

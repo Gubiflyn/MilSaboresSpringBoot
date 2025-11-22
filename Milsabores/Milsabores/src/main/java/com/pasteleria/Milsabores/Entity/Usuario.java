@@ -19,6 +19,7 @@ public abstract class Usuario {
     private String contrasena;
     private String comuna;
     private String region;
+    private String rol;
 
     public Usuario() {}
 
@@ -65,4 +66,12 @@ public abstract class Usuario {
     public String getRegion() { return region; }
 
     public void setRegion(String region) { this.region = region; }
+    public String getRol() {
+    return rol;
+}
+
+public void setRol(String rol) {
+    this.rol = rol;
+}
+
 }
