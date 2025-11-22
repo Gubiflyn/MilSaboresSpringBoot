@@ -25,7 +25,8 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
         Optional<Cliente> c = service.obtenerPorId(id);
-        return c.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return c.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -44,17 +45,7 @@ public class ClienteController {
         return "Cliente eliminado con id: " + id;
     }
 
-    // ----- Endpoints personalizados -----
-
-    @GetMapping("/activos")
-    public List<Cliente> getClientesActivos() {
-        return service.obtenerActivos();
-    }
-
-    @GetMapping("/puntos/{min}")
-    public List<Cliente> getClientesPorPuntos(@PathVariable int min) {
-        return service.obtenerClientesConPuntosDesde(min);
-    }
+    // ----- Endpoints personalizados útiles -----
 
     @GetMapping("/region/{region}")
     public List<Cliente> getClientesPorRegion(@PathVariable String region) {
@@ -65,6 +56,4 @@ public class ClienteController {
     public List<Cliente> getClientesPorComuna(@PathVariable String comuna) {
         return service.obtenerPorComuna(comuna);
     }
-
-
 }

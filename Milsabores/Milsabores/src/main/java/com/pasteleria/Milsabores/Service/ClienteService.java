@@ -34,14 +34,6 @@ public class ClienteService {
         return clienteRepository.findByCorreo(correo);
     }
 
-    public List<Cliente> obtenerActivos() {
-        return clienteRepository.findByActivoTrue();
-    }
-
-    public List<Cliente> obtenerClientesConPuntosDesde(int puntosMinimos) {
-        return clienteRepository.findByPuntosAcumuladosGreaterThanEqual(puntosMinimos);
-    }
-
     public List<Cliente> obtenerPorRegion(String region) {
         return clienteRepository.findByRegion(region);
     }
@@ -50,5 +42,5 @@ public class ClienteService {
         return clienteRepository.findByComuna(comuna);
     }
 
-    // -------- Lógica de negocio --------
+    // -------- Lógica de negocio adicional (si la agregas después) --------
 }

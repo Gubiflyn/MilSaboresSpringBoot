@@ -1,50 +1,44 @@
 package com.pasteleria.Milsabores.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "VENDEDOR")
-public class Vendedor {
+@DiscriminatorValue("VENDEDOR")
+public class Vendedor extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_VENDEDOR")
-    private Long id;
-
-    @Column(name = "NOMBRE", nullable = false, length = 150)
-    private String nombre;
-
-    @Column(name = "CORREO", nullable = false, unique = true, length = 150)
-    private String correo;
-
-    @Column(name ="TELEFONO", length = 20)
-    private String telefono;
-
-    @Column(name = "ESTADO", nullable = false)
-    private String estado; // "activo" o "inactivo"
+    // Campos específicos del vendedor, usando columnas que YA existen en USUARIOS
+    private String telefono;          // columna TELEFONO
+    private boolean activo;           // columna ACTIVO
+    private LocalDate fechaContratacion; // columna FECHA_CONTRATACION
 
     public Vendedor() {}
 
-    public Vendedor(Long id, String nombre, String correo, String telefono, String estado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.estado = estado;
+    // GETTERS / SETTERS
+
+    public String getTelefono() {
+        return telefono;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public boolean isActivo() {
+        return activo;
+    }
 
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public LocalDate getFechaContratacion() {
+        return fechaContratacion;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setFechaContratacion(LocalDate fechaContratacion) {
+        this.fechaContratacion = fechaContratacion;
+    }
 }

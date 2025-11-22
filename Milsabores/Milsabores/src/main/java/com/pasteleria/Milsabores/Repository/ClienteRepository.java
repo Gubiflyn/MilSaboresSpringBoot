@@ -11,10 +11,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     Cliente findByCorreo(String correo);
 
-    List<Cliente> findByActivoTrue();
-
-    List<Cliente> findByPuntosAcumuladosGreaterThanEqual(int puntosMinimos);
-
     List<Cliente> findByRegion(String region);
 
     List<Cliente> findByComuna(String comuna);

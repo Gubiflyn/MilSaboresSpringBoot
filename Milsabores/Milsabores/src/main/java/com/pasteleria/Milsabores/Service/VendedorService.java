@@ -40,15 +40,23 @@ public class VendedorService {
     }
 
     public Vendedor actualizar(Vendedor vendedor) {
-        Vendedor existente = vendedorRepository
-                .findById(vendedor.getId())
-                .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
+    Vendedor existente = vendedorRepository
+            .findById(vendedor.getId())
+            .orElseThrow(() -> new RuntimeException("Vendedor no encontrado"));
 
-        existente.setNombre(vendedor.getNombre());
-        existente.setCorreo(vendedor.getCorreo());
-        existente.setTelefono(vendedor.getTelefono());
-        existente.setEstado(vendedor.getEstado());
+    existente.setNombre(vendedor.getNombre());
+    existente.setRut(vendedor.getRut());
+    existente.setApellido(vendedor.getApellido());
+    existente.setCorreo(vendedor.getCorreo());
+    existente.setContrasena(vendedor.getContrasena());
+    existente.setComuna(vendedor.getComuna());
+    existente.setRegion(vendedor.getRegion());
 
-        return vendedorRepository.save(existente);
-    }
+    existente.setTelefono(vendedor.getTelefono());
+    existente.setActivo(vendedor.isActivo());
+    existente.setFechaContratacion(vendedor.getFechaContratacion());
+
+    return vendedorRepository.save(existente);
+}
+
 }
