@@ -15,14 +15,23 @@ public class BoletaService {
     private BoletaRepository boletaRepository;
 
     public Boleta guardar(Boleta boleta) {
+        // Aseguramos la relación boleta <-> detalles
+        if (boleta.getDetalles() != null) {
+            boleta.getDetalles().forEach(d -> d.setBoleta(boleta));
+        }
         return boletaRepository.save(boleta);
     }
 
     public List<Boleta> guardarLista(List<Boleta> boletas) {
+        boletas.forEach(b -> {
+            if (b.getDetalles() != null) {
+                b.getDetalles().forEach(d -> d.setBoleta(b));
+            }
+        });
         return boletaRepository.saveAll(boletas);
     }
 
-    public List<Boleta> listarTodas() {
+    public List<Boleta> listarTodos() {
         return boletaRepository.findAll();
     }
 
@@ -39,11 +48,6 @@ public class BoletaService {
         return "Boleta eliminada: " + id;
     }
 
-    public List<Boleta> buscarPorIdVendedor(Long idVendedor) {
-        return boletaRepository.findByVendedor_Id(idVendedor);
-    }
-
-
     public Boleta actualizar(Boleta boleta) {
         Boleta existente = boletaRepository
                 .findById(boleta.getId())
@@ -52,7 +56,12 @@ public class BoletaService {
         existente.setFechaEmision(boleta.getFechaEmision());
         existente.setTotal(boleta.getTotal());
         existente.setUsuario(boleta.getUsuario());
+
+        // Actualizamos detalles y la relación inversa
         existente.setDetalles(boleta.getDetalles());
+        if (existente.getDetalles() != null) {
+            existente.getDetalles().forEach(d -> d.setBoleta(existente));
+        }
 
         return boletaRepository.save(existente);
     }

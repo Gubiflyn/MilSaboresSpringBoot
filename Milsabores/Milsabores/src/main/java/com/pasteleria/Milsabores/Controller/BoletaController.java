@@ -27,12 +27,13 @@ public class BoletaController {
 
     @GetMapping("/listBoletas")
     public List<Boleta> listBoletas() {
-        return boletaService.listarTodas();
+        return boletaService.listarTodos();
     }
 
     @GetMapping("/getBoletaById/{id}")
     public Boleta getBoletaById(@PathVariable Long id) {
-        return boletaService.buscarPorId(id).orElse(null);
+        return boletaService.buscarPorId(id)
+                .orElseThrow(() -> new RuntimeException("Boleta no encontrada"));
     }
 
     @GetMapping("/getBoletasByUsuarioId/{idUsuario}")
@@ -49,10 +50,4 @@ public class BoletaController {
     public String deleteBoletaById(@PathVariable Long id) {
         return boletaService.eliminar(id);
     }
-
-    @GetMapping("/getBoletasByVendedorId/{idVendedor}")
-    public List<Boleta> getBoletasByVendedorId(@PathVariable Long idVendedor) {
-        return boletaService.buscarPorIdVendedor(idVendedor);
-    }
-
 }

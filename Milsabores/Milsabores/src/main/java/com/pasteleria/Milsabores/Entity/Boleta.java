@@ -19,47 +19,55 @@ public class Boleta {
     @Column(name = "TOTAL", nullable = false)
     private Integer total;
 
-    @ManyToOne
+    // Cliente que realiza la compra
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_VENDEDOR", nullable = false)
-    private Vendedor vendedor;
-
+    // Detalles de la boleta
     @OneToMany(mappedBy = "boleta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleBoleta> detalles;
 
     public Boleta() {
     }
 
-    public Boleta(Long id, LocalDateTime fechaEmision, Integer total,
-                  Usuario usuario, Vendedor vendedor, List<DetalleBoleta> detalles) {
-        this.id = id;
-        this.fechaEmision = fechaEmision;
-        this.total = total;
-        this.usuario = usuario;
-        this.vendedor = vendedor;
-        this.detalles = detalles;
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public LocalDateTime getFechaEmision() {
+        return fechaEmision;
+    }
 
-    public LocalDateTime getFechaEmision() { return fechaEmision; }
-    public void setFechaEmision(LocalDateTime fechaEmision) { this.fechaEmision = fechaEmision; }
+    public void setFechaEmision(LocalDateTime fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
 
-    public Integer getTotal() { return total; }
-    public void setTotal(Integer total) { this.total = total; }
+    public Integer getTotal() {
+        return total;
+    }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
 
-    public Vendedor getVendedor() { return vendedor; }
-    public void setVendedor(Vendedor vendedor) { this.vendedor = vendedor; }
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-    public List<DetalleBoleta> getDetalles() { return detalles; }
-    public void setDetalles(List<DetalleBoleta> detalles) { this.detalles = detalles; }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<DetalleBoleta> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleBoleta> detalles) {
+        this.detalles = detalles;
+    }
 }
