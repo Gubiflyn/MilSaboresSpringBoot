@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -27,23 +28,17 @@ public class BoletaController {
 
     @GetMapping("/listBoletas")
     public List<Boleta> listBoletas() {
-        return boletaService.listarTodos();
+        return boletaService.listarTodas();
     }
 
     @GetMapping("/getBoletaById/{id}")
-    public Boleta getBoletaById(@PathVariable Long id) {
-        return boletaService.buscarPorId(id)
-                .orElseThrow(() -> new RuntimeException("Boleta no encontrada"));
+    public Optional<Boleta> getBoletaById(@PathVariable Long id) {
+        return boletaService.buscarPorId(id);
     }
 
     @GetMapping("/getBoletasByUsuarioId/{idUsuario}")
     public List<Boleta> getBoletasByUsuarioId(@PathVariable Long idUsuario) {
-        return boletaService.buscarPorIdUsuario(idUsuario);
-    }
-
-    @PutMapping("/updateBoleta")
-    public Boleta updateBoleta(@RequestBody Boleta boleta) {
-        return boletaService.actualizar(boleta);
+        return boletaService.listarPorUsuario(idUsuario);
     }
 
     @DeleteMapping("/deleteBoletaById/{id}")

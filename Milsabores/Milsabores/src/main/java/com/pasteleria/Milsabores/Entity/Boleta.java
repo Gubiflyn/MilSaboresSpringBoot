@@ -2,6 +2,7 @@ package com.pasteleria.Milsabores.Entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,14 +20,16 @@ public class Boleta {
     @Column(name = "TOTAL", nullable = false)
     private Integer total;
 
-    // Cliente que realiza la compra
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
-    // Detalles de la boleta
-    @OneToMany(mappedBy = "boleta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleBoleta> detalles;
+    @OneToMany(
+            mappedBy = "boleta",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<DetalleBoleta> detalles = new ArrayList<>();
 
     public Boleta() {
     }
@@ -68,6 +71,23 @@ public class Boleta {
     }
 
     public void setDetalles(List<DetalleBoleta> detalles) {
-        this.detalles = detalles;
+        this.detalles.clear();
+        if (detalles != null) {
+            for (DetalleBoleta detalle : detalles) {
+                addDetalle(detalle);
+            }
+        }
+    }
+
+    public void addDetalle(DetalleBoleta detalle) {
+        if (detalle == null) return;
+        detalle.setBoleta(this);
+        this.detalles.add(detalle);
+    }
+
+    public void removeDetalle(DetalleBoleta detalle) {
+        if (detalle == null) return;
+        this.detalles.remove(detalle);
+        detalle.setBoleta(null);
     }
 }

@@ -1,6 +1,7 @@
 package com.pasteleria.Milsabores.Service;
 
 import com.pasteleria.Milsabores.Entity.Boleta;
+import com.pasteleria.Milsabores.Entity.DetalleBoleta;
 import com.pasteleria.Milsabores.Repository.BoletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,23 +16,26 @@ public class BoletaService {
     private BoletaRepository boletaRepository;
 
     public Boleta guardar(Boleta boleta) {
-        // Aseguramos la relación boleta <-> detalles
         if (boleta.getDetalles() != null) {
-            boleta.getDetalles().forEach(d -> d.setBoleta(boleta));
+            for (DetalleBoleta detalle : boleta.getDetalles()) {
+                detalle.setBoleta(boleta);
+            }
         }
         return boletaRepository.save(boleta);
     }
 
     public List<Boleta> guardarLista(List<Boleta> boletas) {
-        boletas.forEach(b -> {
-            if (b.getDetalles() != null) {
-                b.getDetalles().forEach(d -> d.setBoleta(b));
+        for (Boleta boleta : boletas) {
+            if (boleta.getDetalles() != null) {
+                for (DetalleBoleta detalle : boleta.getDetalles()) {
+                    detalle.setBoleta(boleta);
+                }
             }
-        });
+        }
         return boletaRepository.saveAll(boletas);
     }
 
-    public List<Boleta> listarTodos() {
+    public List<Boleta> listarTodas() {
         return boletaRepository.findAll();
     }
 
@@ -39,7 +43,7 @@ public class BoletaService {
         return boletaRepository.findById(id);
     }
 
-    public List<Boleta> buscarPorIdUsuario(Long idUsuario) {
+    public List<Boleta> listarPorUsuario(Long idUsuario) {
         return boletaRepository.findByUsuario_Id(idUsuario);
     }
 
@@ -56,11 +60,12 @@ public class BoletaService {
         existente.setFechaEmision(boleta.getFechaEmision());
         existente.setTotal(boleta.getTotal());
         existente.setUsuario(boleta.getUsuario());
-
-        // Actualizamos detalles y la relación inversa
         existente.setDetalles(boleta.getDetalles());
+
         if (existente.getDetalles() != null) {
-            existente.getDetalles().forEach(d -> d.setBoleta(existente));
+            for (DetalleBoleta detalle : existente.getDetalles()) {
+                detalle.setBoleta(existente);
+            }
         }
 
         return boletaRepository.save(existente);

@@ -12,12 +12,12 @@ public class DetalleBoleta {
     @Column(name = "ID_DETALLE")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_BOLETA", nullable = false)
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_BOLETA", nullable = false)
     private Boleta boleta;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PRODUCTO", nullable = false)
     private Pastel pastel;
 
@@ -33,33 +33,53 @@ public class DetalleBoleta {
     public DetalleBoleta() {
     }
 
-    public DetalleBoleta(Long id, Boleta boleta, Pastel pastel,
-                         Integer cantidad, Integer precioUnitario, Integer subtotal) {
-        this.id = id;
-        this.boleta = boleta;
-        this.pastel = pastel;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.subtotal = subtotal;
+    public Long getId() {
+        return id;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Boleta getBoleta() { return boleta; }
-    public void setBoleta(Boleta boleta) { this.boleta = boleta; }
+    public Boleta getBoleta() {
+        return boleta;
+    }
 
-    public Pastel getPastel() { return pastel; }
-    public void setPastel(Pastel pastel) { this.pastel = pastel; }
+    public void setBoleta(Boleta boleta) {
+        this.boleta = boleta;
+    }
 
-    public Integer getCantidad() { return cantidad; }
-    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+    public Pastel getPastel() {
+        return pastel;
+    }
 
-    public Integer getPrecioUnitario() { return precioUnitario; }
-    public void setPrecioUnitario(Integer precioUnitario) { this.precioUnitario = precioUnitario; }
+    public void setPastel(Pastel pastel) {
+        this.pastel = pastel;
+    }
 
-    public Integer getSubtotal() { return subtotal; }
-    public void setSubtotal(Integer subtotal) { this.subtotal = subtotal; }
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Integer getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(Integer precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public Integer getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Integer subtotal) {
+        this.subtotal = subtotal;
+    }
 
     @Override
     public String toString() {
