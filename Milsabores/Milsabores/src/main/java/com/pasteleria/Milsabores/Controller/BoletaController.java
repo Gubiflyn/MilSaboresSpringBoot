@@ -1,39 +1,31 @@
 package com.pasteleria.Milsabores.Controller;
 
+import com.pasteleria.Milsabores.DTO.BoletaRequestDTO;
 import com.pasteleria.Milsabores.Entity.Boleta;
 import com.pasteleria.Milsabores.Service.BoletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/boletas")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BoletaController {
 
     @Autowired
     private BoletaService boletaService;
 
     @PostMapping("/saveBoleta")
-    public Boleta saveBoleta(@RequestBody Boleta boleta) {
-        return boletaService.guardar(boleta);
-    }
-
-    @PostMapping("/saveBoletasList")
-    public List<Boleta> saveBoletasList(@RequestBody List<Boleta> boletas) {
-        return boletaService.guardarLista(boletas);
+    public Boleta saveBoleta(@RequestBody BoletaRequestDTO request) {
+        // Aquí ya NO recibimos una Boleta con un Usuario adentro,
+        // sino un DTO con usuarioId y detalles.
+        return boletaService.crearDesdeDto(request);
     }
 
     @GetMapping("/listBoletas")
-    public List<Boleta> listBoletas() {
-        return boletaService.listarTodas();
-    }
-
-    @GetMapping("/getBoletaById/{id}")
-    public Optional<Boleta> getBoletaById(@PathVariable Long id) {
-        return boletaService.buscarPorId(id);
+    public List<Boleta> getBoletas() {
+        return boletaService.listarTodos();
     }
 
     @GetMapping("/getBoletasByUsuarioId/{idUsuario}")
