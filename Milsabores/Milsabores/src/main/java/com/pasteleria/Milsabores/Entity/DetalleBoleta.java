@@ -33,6 +33,8 @@ public class DetalleBoleta {
     public DetalleBoleta() {
     }
 
+    // ========== Getters y Setters ==========
+
     public Long getId() {
         return id;
     }

@@ -34,13 +34,15 @@ public class BoletaService {
     @Autowired
     private PastelRepository pastelRepository;
 
-    // ================== NUEVO MÉTODO PRINCIPAL ==================
+    // ================== MÉTODO PRINCIPAL ==================
 
     @Transactional
     public Boleta crearDesdeDto(BoletaRequestDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id " + dto.getUsuarioId()));
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado con id " + dto.getUsuarioId())
+                );
 
         Boleta boleta = new Boleta();
         boleta.setFechaEmision(
@@ -54,7 +56,9 @@ public class BoletaService {
         if (dto.getDetalles() != null) {
             for (DetalleBoletaRequestDTO detDto : dto.getDetalles()) {
                 Pastel pastel = pastelRepository.findById(detDto.getPastelId())
-                        .orElseThrow(() -> new RuntimeException("Pastel no encontrado con id " + detDto.getPastelId()));
+                        .orElseThrow(() ->
+                                new RuntimeException("Pastel no encontrado con id " + detDto.getPastelId())
+                        );
 
                 DetalleBoleta detalle = new DetalleBoleta();
                 detalle.setBoleta(boleta);
@@ -67,14 +71,15 @@ public class BoletaService {
             }
         }
 
+        // Asigna la lista y asegura la relación bidireccional
         boleta.setDetalles(detalles);
 
-        // Gracias a CascadeType.ALL en la relación, al guardar la boleta
-        // también se guardan los detalles.
+        
+        // se guardan también los detalles.
         return boletaRepository.save(boleta);
     }
 
-    // ================== MÉTODOS QUE YA TENÍAS ==================
+    // ================== MÉTODOS DE APOYO ==================
 
     public List<Boleta> listarTodos() {
         return boletaRepository.findAll();
@@ -88,6 +93,7 @@ public class BoletaService {
         return boletaRepository.findByUsuario_Id(idUsuario);
     }
 
+    @Transactional
     public String eliminar(Long id) {
         detalleBoletaRepository.deleteByBoleta_Id(id);
         boletaRepository.deleteById(id);

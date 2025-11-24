@@ -10,4 +10,6 @@ public interface DetalleBoletaRepository extends JpaRepository<DetalleBoleta, Lo
     List<DetalleBoleta> findByBoleta_Id(Long idBoleta);
 
     List<DetalleBoleta> findByPastel_Id(Long idPastel);
+
+    void deleteByBoleta_Id(Long idBoleta);
 }

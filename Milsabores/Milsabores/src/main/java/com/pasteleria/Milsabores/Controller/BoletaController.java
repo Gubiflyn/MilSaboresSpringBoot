@@ -18,8 +18,7 @@ public class BoletaController {
 
     @PostMapping("/saveBoleta")
     public Boleta saveBoleta(@RequestBody BoletaRequestDTO request) {
-        // Aquí ya NO recibimos una Boleta con un Usuario adentro,
-        // sino un DTO con usuarioId y detalles.
+        // Recibimos un DTO con usuarioId, total y detalles
         return boletaService.crearDesdeDto(request);
     }
 

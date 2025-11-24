@@ -34,6 +34,8 @@ public class Boleta {
     public Boleta() {
     }
 
+    // ========== Getters y Setters ==========
+
     public Long getId() {
         return id;
     }
@@ -70,6 +72,9 @@ public class Boleta {
         return detalles;
     }
 
+    /**
+     * Setea la lista completa respetando la relación bidireccional.
+     */
     public void setDetalles(List<DetalleBoleta> detalles) {
         this.detalles.clear();
         if (detalles != null) {
