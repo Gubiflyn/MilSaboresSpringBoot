@@ -51,6 +51,10 @@ public class BoletaService {
         boleta.setTotal(dto.getTotal());
         boleta.setUsuario(usuario);
 
+        // NUEVO: guardamos nombre y RUT del usuario en la boleta
+        boleta.setNombreUsuario(usuario.getNombre());
+        boleta.setRutUsuario(usuario.getRut());
+
         List<DetalleBoleta> detalles = new ArrayList<>();
 
         if (dto.getDetalles() != null) {
@@ -67,19 +71,22 @@ public class BoletaService {
                 detalle.setPrecioUnitario(detDto.getPrecioUnitario());
                 detalle.setSubtotal(detDto.getCantidad() * detDto.getPrecioUnitario());
 
+                // NUEVO: guardamos código y nombre del producto
+                detalle.setCodigoProducto(pastel.getCodigo());
+                detalle.setNombreProducto(pastel.getNombre());
+
                 detalles.add(detalle);
             }
         }
 
-        // Asigna la lista y asegura la relación bidireccional
         boleta.setDetalles(detalles);
 
-        
-        // se guardan también los detalles.
+        // Gracias a CascadeType.ALL en la relación, al guardar la boleta
+        // también se guardan los detalles.
         return boletaRepository.save(boleta);
     }
 
-    // ================== MÉTODOS DE APOYO ==================
+    // ================== RESTO DE MÉTODOS ==================
 
     public List<Boleta> listarTodos() {
         return boletaRepository.findAll();
@@ -93,7 +100,6 @@ public class BoletaService {
         return boletaRepository.findByUsuario_Id(idUsuario);
     }
 
-    @Transactional
     public String eliminar(Long id) {
         detalleBoletaRepository.deleteByBoleta_Id(id);
         boletaRepository.deleteById(id);

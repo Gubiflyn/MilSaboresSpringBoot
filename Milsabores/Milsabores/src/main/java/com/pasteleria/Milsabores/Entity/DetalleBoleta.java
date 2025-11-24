@@ -21,6 +21,13 @@ public class DetalleBoleta {
     @JoinColumn(name = "ID_PRODUCTO", nullable = false)
     private Pastel pastel;
 
+    // NUEVOS CAMPOS DENORMALIZADOS DEL PRODUCTO
+    @Column(name = "CODIGO_PRODUCTO", length = 20)
+    private String codigoProducto;
+
+    @Column(name = "NOMBRE_PRODUCTO", length = 200)
+    private String nombreProducto;
+
     @Column(name = "CANTIDAD", nullable = false)
     private Integer cantidad;
 
@@ -33,7 +40,7 @@ public class DetalleBoleta {
     public DetalleBoleta() {
     }
 
-    // ========== Getters y Setters ==========
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
@@ -57,6 +64,22 @@ public class DetalleBoleta {
 
     public void setPastel(Pastel pastel) {
         this.pastel = pastel;
+    }
+
+    public String getCodigoProducto() {
+        return codigoProducto;
+    }
+
+    public void setCodigoProducto(String codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
     public Integer getCantidad() {
@@ -88,6 +111,8 @@ public class DetalleBoleta {
         return "DetalleBoleta{" +
                 "id=" + id +
                 ", pastel=" + (pastel != null ? pastel.getNombre() : null) +
+                ", codigoProducto='" + codigoProducto + '\'' +
+                ", nombreProducto='" + nombreProducto + '\'' +
                 ", cantidad=" + cantidad +
                 ", precioUnitario=" + precioUnitario +
                 ", subtotal=" + subtotal +

@@ -24,6 +24,13 @@ public class Boleta {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
+    // NUEVOS CAMPOS DENORMALIZADOS
+    @Column(name = "NOMBRE_USUARIO", length = 200)
+    private String nombreUsuario;
+
+    @Column(name = "RUT_USUARIO", length = 20)
+    private String rutUsuario;
+
     @OneToMany(
             mappedBy = "boleta",
             cascade = CascadeType.ALL,
@@ -34,7 +41,7 @@ public class Boleta {
     public Boleta() {
     }
 
-    // ========== Getters y Setters ==========
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
@@ -68,12 +75,28 @@ public class Boleta {
         this.usuario = usuario;
     }
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getRutUsuario() {
+        return rutUsuario;
+    }
+
+    public void setRutUsuario(String rutUsuario) {
+        this.rutUsuario = rutUsuario;
+    }
+
     public List<DetalleBoleta> getDetalles() {
         return detalles;
     }
 
     /**
-     * Setea la lista completa respetando la relación bidireccional.
+     * Reemplaza la lista completa respetando la relación bidireccional.
      */
     public void setDetalles(List<DetalleBoleta> detalles) {
         this.detalles.clear();
