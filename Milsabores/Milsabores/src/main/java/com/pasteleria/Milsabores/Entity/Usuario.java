@@ -1,6 +1,7 @@
 package com.pasteleria.Milsabores.Entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "USUARIOS")
@@ -23,23 +24,32 @@ public class Usuario {
     private String comuna;
     private String region;
 
+    @Column(name = "FECHA_NACIMIENTO")
+    private LocalDate fechaNacimiento;
+
+    @Column(name = "BENEFICIO")
+    private String beneficio;
+
+    @Column(name = "CODIGO_REGISTRO")
+    private String codigoRegistro;
+
     @Column(name = "ROL")
     private String rol;
-
-    // --- Constructores ---
 
     public Usuario() {
     }
 
- 
-    public Usuario(Long id,
-                   String nombre,
-                   String rut,
-                   String apellido,
-                   String correo,
-                   String contrasena,
-                   String comuna,
-                   String region) {
+    // 🔹 Constructor que usa Administrador.java (restaurado)
+    public Usuario(
+            Long id,
+            String nombre,
+            String rut,
+            String apellido,
+            String correo,
+            String contrasena,
+            String comuna,
+            String region
+    ) {
         this.id = id;
         this.nombre = nombre;
         this.rut = rut;
@@ -48,20 +58,6 @@ public class Usuario {
         this.contrasena = contrasena;
         this.comuna = comuna;
         this.region = region;
-    }
-
- 
-    public Usuario(Long id,
-                   String nombre,
-                   String rut,
-                   String apellido,
-                   String correo,
-                   String contrasena,
-                   String comuna,
-                   String region,
-                   String rol) {
-        this(id, nombre, rut, apellido, correo, contrasena, comuna, region);
-        this.rol = rol;
     }
 
     // --- Getters & Setters ---
@@ -128,6 +124,30 @@ public class Usuario {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getBeneficio() {
+        return beneficio;
+    }
+
+    public void setBeneficio(String beneficio) {
+        this.beneficio = beneficio;
+    }
+
+    public String getCodigoRegistro() {
+        return codigoRegistro;
+    }
+
+    public void setCodigoRegistro(String codigoRegistro) {
+        this.codigoRegistro = codigoRegistro;
     }
 
     public String getRol() {
