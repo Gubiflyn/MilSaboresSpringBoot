@@ -39,7 +39,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    // 🔹 Constructor que usa Administrador.java (restaurado)
+   
     public Usuario(
             Long id,
             String nombre,
