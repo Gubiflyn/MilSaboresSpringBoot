@@ -1,5 +1,7 @@
 package com.pasteleria.Milsabores.DTO;
 
+import java.time.LocalDate;
+
 public class UsuarioUpdateDTO {
 
     private Long id;
@@ -7,8 +9,14 @@ public class UsuarioUpdateDTO {
     private String correo;
     private String rol;
 
+    // ✅ Campos nuevos
+    private String beneficio;
+    private LocalDate fechaNacimiento;
+
     public UsuarioUpdateDTO() {
     }
+
+    // ----- Getters & Setters -----
 
     public Long getId() {
         return id;
@@ -40,5 +48,21 @@ public class UsuarioUpdateDTO {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getBeneficio() {
+        return beneficio;
+    }
+
+    public void setBeneficio(String beneficio) {
+        this.beneficio = beneficio;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }
