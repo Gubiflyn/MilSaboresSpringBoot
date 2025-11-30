@@ -42,5 +42,5 @@ public class ClienteService {
         return clienteRepository.findByComuna(comuna);
     }
 
-    // -------- Lógica de negocio adicional (si la agregas después) --------
+ 
 }

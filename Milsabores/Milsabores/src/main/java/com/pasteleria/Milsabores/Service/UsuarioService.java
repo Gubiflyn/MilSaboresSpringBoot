@@ -71,12 +71,11 @@ public class UsuarioService {
             usuario.setRol(dto.getRol());
         }
 
-        // ✅ Beneficio
         if (dto.getBeneficio() != null) {
             usuario.setBeneficio(dto.getBeneficio());
         }
 
-        // ✅ Fecha de nacimiento
+        
         if (dto.getFechaNacimiento() != null) {
             usuario.setFechaNacimiento(dto.getFechaNacimiento());
         }
