@@ -17,6 +17,7 @@ public class DetalleBoleta {
     @JoinColumn(name = "ID_BOLETA", nullable = false)
     private Boleta boleta;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PRODUCTO", nullable = false)
     private Pastel pastel;

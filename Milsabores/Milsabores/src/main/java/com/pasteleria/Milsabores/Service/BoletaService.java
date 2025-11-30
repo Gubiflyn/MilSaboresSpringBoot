@@ -1,7 +1,8 @@
 package com.pasteleria.Milsabores.Service;
 
+import com.pasteleria.Milsabores.DTO.BoletaDTO;
 import com.pasteleria.Milsabores.DTO.BoletaRequestDTO;
-import com.pasteleria.Milsabores.DTO.DetalleBoletaRequestDTO;
+import com.pasteleria.Milsabores.DTO.DetalleBoletaDTO;
 import com.pasteleria.Milsabores.Entity.Boleta;
 import com.pasteleria.Milsabores.Entity.DetalleBoleta;
 import com.pasteleria.Milsabores.Entity.Pastel;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BoletaService {
@@ -34,7 +36,7 @@ public class BoletaService {
     @Autowired
     private PastelRepository pastelRepository;
 
-    // ================== MÉTODO PRINCIPAL ==================
+    // ================== MÉTODO PRINCIPAL (CREACIÓN) ==================
 
     @Transactional
     public Boleta crearDesdeDto(BoletaRequestDTO dto) {
@@ -51,14 +53,15 @@ public class BoletaService {
         boleta.setTotal(dto.getTotal());
         boleta.setUsuario(usuario);
 
-        // NUEVO: guardamos nombre y RUT del usuario en la boleta
+        // Guardamos nombre y RUT del usuario en la boleta (denormalizado)
         boleta.setNombreUsuario(usuario.getNombre());
         boleta.setRutUsuario(usuario.getRut());
 
         List<DetalleBoleta> detalles = new ArrayList<>();
 
         if (dto.getDetalles() != null) {
-            for (DetalleBoletaRequestDTO detDto : dto.getDetalles()) {
+            dto.getDetalles().forEach(detDto -> {
+                // 👇 aquí estaba el error: usar getPastelId() en vez de getIdProducto()
                 Pastel pastel = pastelRepository.findById(detDto.getPastelId())
                         .orElseThrow(() ->
                                 new RuntimeException("Pastel no encontrado con id " + detDto.getPastelId())
@@ -71,12 +74,12 @@ public class BoletaService {
                 detalle.setPrecioUnitario(detDto.getPrecioUnitario());
                 detalle.setSubtotal(detDto.getCantidad() * detDto.getPrecioUnitario());
 
-                // NUEVO: guardamos código y nombre del producto
+                // Guardamos código y nombre del producto (denormalizado)
                 detalle.setCodigoProducto(pastel.getCodigo());
                 detalle.setNombreProducto(pastel.getNombre());
 
                 detalles.add(detalle);
-            }
+            });
         }
 
         boleta.setDetalles(detalles);
@@ -86,7 +89,7 @@ public class BoletaService {
         return boletaRepository.save(boleta);
     }
 
-    // ================== RESTO DE MÉTODOS ==================
+    // ================== MÉTODOS CON ENTIDAD (por si los usas internamente) ==================
 
     public List<Boleta> listarTodos() {
         return boletaRepository.findAll();
@@ -104,5 +107,72 @@ public class BoletaService {
         detalleBoletaRepository.deleteByBoleta_Id(id);
         boletaRepository.deleteById(id);
         return "Boleta eliminada: " + id;
+    }
+
+    // ================== MÉTODOS DTO (para exponer por la API) ==================
+
+    @Transactional(readOnly = true)
+    public List<BoletaDTO> listarTodosDto() {
+        List<Boleta> boletas = boletaRepository.findAll();
+        return boletas.stream()
+                .map(this::mapearABoletaDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoletaDTO> listarPorUsuarioDto(Long idUsuario) {
+        List<Boleta> boletas = boletaRepository.findByUsuario_Id(idUsuario);
+        return boletas.stream()
+                .map(this::mapearABoletaDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public BoletaDTO mapearABoletaDto(Boleta boleta) {
+        if (boleta == null) return null;
+
+        BoletaDTO dto = new BoletaDTO();
+        dto.setId(boleta.getId());
+        dto.setFechaEmision(boleta.getFechaEmision());
+        dto.setTotal(boleta.getTotal());
+        dto.setNombreUsuario(boleta.getNombreUsuario());
+        dto.setRutUsuario(boleta.getRutUsuario());
+
+        Usuario usuario = boleta.getUsuario();
+        if (usuario != null) {
+            dto.setUsuarioId(usuario.getId());
+            dto.setCorreoUsuario(usuario.getCorreo());
+        }
+
+        List<DetalleBoletaDTO> detallesDto = new ArrayList<>();
+        if (boleta.getDetalles() != null) {
+            for (DetalleBoleta det : boleta.getDetalles()) {
+                detallesDto.add(mapearADetalleDto(det));
+            }
+        }
+        dto.setDetalles(detallesDto);
+
+        return dto;
+    }
+
+    private DetalleBoletaDTO mapearADetalleDto(DetalleBoleta detalle) {
+        if (detalle == null) return null;
+
+        DetalleBoletaDTO dto = new DetalleBoletaDTO();
+        dto.setId(detalle.getId());
+        dto.setCantidad(detalle.getCantidad());
+        dto.setPrecioUnitario(detalle.getPrecioUnitario());
+        dto.setSubtotal(detalle.getSubtotal());
+
+        Pastel pastel = detalle.getPastel();
+        if (pastel != null) {
+            dto.setCodigoProducto(pastel.getCodigo());
+            dto.setNombreProducto(pastel.getNombre());
+        } else {
+            dto.setCodigoProducto(detalle.getCodigoProducto());
+            dto.setNombreProducto(detalle.getNombreProducto());
+        }
+
+        return dto;
     }
 }

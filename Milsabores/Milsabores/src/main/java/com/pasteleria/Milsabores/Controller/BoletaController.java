@@ -1,5 +1,6 @@
 package com.pasteleria.Milsabores.Controller;
 
+import com.pasteleria.Milsabores.DTO.BoletaDTO;
 import com.pasteleria.Milsabores.DTO.BoletaRequestDTO;
 import com.pasteleria.Milsabores.Entity.Boleta;
 import com.pasteleria.Milsabores.Service.BoletaService;
@@ -17,19 +18,21 @@ public class BoletaController {
     private BoletaService boletaService;
 
     @PostMapping("/saveBoleta")
-    public Boleta saveBoleta(@RequestBody BoletaRequestDTO request) {
+    public BoletaDTO saveBoleta(@RequestBody BoletaRequestDTO request) {
         // Recibimos un DTO con usuarioId, total y detalles
-        return boletaService.crearDesdeDto(request);
+        Boleta boletaCreada = boletaService.crearDesdeDto(request);
+        // Devolvemos un DTO enriquecido (con usuario y detalles)
+        return boletaService.mapearABoletaDto(boletaCreada);
     }
 
     @GetMapping("/listBoletas")
-    public List<Boleta> getBoletas() {
-        return boletaService.listarTodos();
+    public List<BoletaDTO> getBoletas() {
+        return boletaService.listarTodosDto();
     }
 
     @GetMapping("/getBoletasByUsuarioId/{idUsuario}")
-    public List<Boleta> getBoletasByUsuarioId(@PathVariable Long idUsuario) {
-        return boletaService.listarPorUsuario(idUsuario);
+    public List<BoletaDTO> getBoletasByUsuarioId(@PathVariable Long idUsuario) {
+        return boletaService.listarPorUsuarioDto(idUsuario);
     }
 
     @DeleteMapping("/deleteBoletaById/{id}")
