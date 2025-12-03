@@ -39,7 +39,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    // Buscar por correo (para login, etc.)
+    // Buscar por correo
     public Usuario obtenerPorCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo);
     }
@@ -60,7 +60,7 @@ public class UsuarioService {
 
         Usuario usuario = opt.get();
 
-        // Campos básicos
+       
         if (dto.getNombre() != null) {
             usuario.setNombre(dto.getNombre());
         }

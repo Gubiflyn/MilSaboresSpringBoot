@@ -39,7 +39,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    // 🔹 Constructor que usa Administrador.java (restaurado)
+   
     public Usuario(
             Long id,
             String nombre,
@@ -60,7 +60,7 @@ public class Usuario {
         this.region = region;
     }
 
-    // --- Getters & Setters ---
+ 
 
     public Long getId() {
         return id;

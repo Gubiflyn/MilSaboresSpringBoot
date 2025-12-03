@@ -9,14 +9,14 @@ public class UsuarioUpdateDTO {
     private String correo;
     private String rol;
 
-    // ✅ Campos nuevos
+    
     private String beneficio;
     private LocalDate fechaNacimiento;
 
     public UsuarioUpdateDTO() {
     }
 
-    // ----- Getters & Setters -----
+    
 
     public Long getId() {
         return id;

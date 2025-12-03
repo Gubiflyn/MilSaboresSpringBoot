@@ -9,13 +9,13 @@ public class BoletaDTO {
     private LocalDateTime fechaEmision;
     private Integer total;
 
-    // Datos del usuario asociados a la boleta
+ 
     private Long usuarioId;
     private String nombreUsuario;
     private String rutUsuario;
     private String correoUsuario;
 
-    // Detalles de la boleta (productos)
+    
     private List<DetalleBoletaDTO> detalles;
 
     public BoletaDTO() {

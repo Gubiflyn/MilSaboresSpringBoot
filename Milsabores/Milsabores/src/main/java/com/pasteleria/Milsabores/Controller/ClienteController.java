@@ -45,7 +45,7 @@ public class ClienteController {
         return "Cliente eliminado con id: " + id;
     }
 
-    // ----- Endpoints personalizados útiles -----
+    
 
     @GetMapping("/region/{region}")
     public List<Cliente> getClientesPorRegion(@PathVariable String region) {

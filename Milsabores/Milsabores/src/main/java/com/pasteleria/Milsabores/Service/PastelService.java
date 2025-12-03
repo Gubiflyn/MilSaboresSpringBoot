@@ -32,24 +32,24 @@ public class PastelService {
 }
 
 
-    // Método para generar código único
+   
     private String generarCodigo(Pastel pastel) {
 
-        // Base del código (PROD si no hay nombre)
+        
         String base = (pastel.getNombre() != null && !pastel.getNombre().isBlank())
                 ? pastel.getNombre().replaceAll("\\s+", "").toUpperCase()
                 : "PROD";
 
-        // Máximo 10 caracteres para no pasar el límite de la columna
+    
         if (base.length() > 10) {
             base = base.substring(0, 10);
         }
 
-        // Sufijo numérico único basado en timestamp
+       
         String sufijo = String.valueOf(System.currentTimeMillis());
-        sufijo = sufijo.substring(sufijo.length() - 6); // últimos 6 dígitos
+        sufijo = sufijo.substring(sufijo.length() - 6); 
 
-        return base + sufijo; // Ejemplo: TORTAJAMON123456
+        return base + sufijo; 
     }
 
     // ===============================
@@ -99,7 +99,7 @@ public class PastelService {
                 .findById(pastel.getId())
                 .orElseThrow(() -> new RuntimeException("Pastel no encontrado"));
 
-        // Si el usuario borra el código, volvemos a generar uno
+        
         if (pastel.getCodigo() == null || pastel.getCodigo().trim().isEmpty()) {
             existente.setCodigo(generarCodigo(pastel));
         } else {

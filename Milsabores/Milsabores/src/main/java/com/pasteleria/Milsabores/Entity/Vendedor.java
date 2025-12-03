@@ -9,14 +9,14 @@ import java.time.LocalDate;
 @DiscriminatorValue("VENDEDOR")
 public class Vendedor extends Usuario {
 
-    // Campos específicos del vendedor, usando columnas que YA existen en USUARIOS
-    private String telefono;          // columna TELEFONO
-    private boolean activo;           // columna ACTIVO
-    private LocalDate fechaContratacion; // columna FECHA_CONTRATACION
+    
+    private String telefono;          
+    private boolean activo;         
+    private LocalDate fechaContratacion; 
 
     public Vendedor() {}
 
-    // GETTERS / SETTERS
+  
 
     public String getTelefono() {
         return telefono;

@@ -24,7 +24,6 @@ public class Boleta {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
-    // NUEVOS CAMPOS DENORMALIZADOS
     @Column(name = "NOMBRE_USUARIO", length = 200)
     private String nombreUsuario;
 
@@ -41,7 +40,7 @@ public class Boleta {
     public Boleta() {
     }
 
-    // ===== Getters & Setters =====
+
 
     public Long getId() {
         return id;

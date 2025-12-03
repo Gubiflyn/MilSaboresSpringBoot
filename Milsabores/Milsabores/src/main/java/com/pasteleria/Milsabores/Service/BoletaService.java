@@ -36,7 +36,7 @@ public class BoletaService {
     @Autowired
     private PastelRepository pastelRepository;
 
-    // ================== MÉTODO PRINCIPAL (CREACIÓN) ==================
+  
 
     @Transactional
     public Boleta crearDesdeDto(BoletaRequestDTO dto) {
@@ -53,7 +53,7 @@ public class BoletaService {
         boleta.setTotal(dto.getTotal());
         boleta.setUsuario(usuario);
 
-        // Guardamos nombre y RUT del usuario en la boleta (denormalizado)
+       
         boleta.setNombreUsuario(usuario.getNombre());
         boleta.setRutUsuario(usuario.getRut());
 
@@ -61,7 +61,7 @@ public class BoletaService {
 
         if (dto.getDetalles() != null) {
             dto.getDetalles().forEach(detDto -> {
-                // 👇 aquí estaba el error: usar getPastelId() en vez de getIdProducto()
+              
                 Pastel pastel = pastelRepository.findById(detDto.getPastelId())
                         .orElseThrow(() ->
                                 new RuntimeException("Pastel no encontrado con id " + detDto.getPastelId())
@@ -74,7 +74,7 @@ public class BoletaService {
                 detalle.setPrecioUnitario(detDto.getPrecioUnitario());
                 detalle.setSubtotal(detDto.getCantidad() * detDto.getPrecioUnitario());
 
-                // Guardamos código y nombre del producto (denormalizado)
+               
                 detalle.setCodigoProducto(pastel.getCodigo());
                 detalle.setNombreProducto(pastel.getNombre());
 
@@ -84,12 +84,11 @@ public class BoletaService {
 
         boleta.setDetalles(detalles);
 
-        // Gracias a CascadeType.ALL en la relación, al guardar la boleta
-        // también se guardan los detalles.
+       
         return boletaRepository.save(boleta);
     }
 
-    // ================== MÉTODOS CON ENTIDAD (por si los usas internamente) ==================
+  
 
     public List<Boleta> listarTodos() {
         return boletaRepository.findAll();
@@ -109,7 +108,7 @@ public class BoletaService {
         return "Boleta eliminada: " + id;
     }
 
-    // ================== MÉTODOS DTO (para exponer por la API) ==================
+
 
     @Transactional(readOnly = true)
     public List<BoletaDTO> listarTodosDto() {

@@ -22,7 +22,7 @@ public class DetalleBoleta {
     @JoinColumn(name = "ID_PRODUCTO", nullable = false)
     private Pastel pastel;
 
-    // NUEVOS CAMPOS DENORMALIZADOS DEL PRODUCTO
+  
     @Column(name = "CODIGO_PRODUCTO", length = 20)
     private String codigoProducto;
 
@@ -41,7 +41,7 @@ public class DetalleBoleta {
     public DetalleBoleta() {
     }
 
-    // ===== Getters & Setters =====
+  
 
     public Long getId() {
         return id;

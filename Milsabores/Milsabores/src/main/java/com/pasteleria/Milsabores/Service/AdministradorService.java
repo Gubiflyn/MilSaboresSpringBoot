@@ -42,7 +42,7 @@ public class AdministradorService {
         return administradorRepository.findByRol(rol);
     }
 
-    // -------- Lógica de negocio --------
+
 
     public Administrador cambiarRol(Long idAdmin, String nuevoRol) {
         Administrador a = administradorRepository.findById(idAdmin).orElse(null);
